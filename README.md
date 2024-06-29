@@ -22,6 +22,13 @@ Or to see the coverage, run:
 npm run coverage
 ```
 
+### Config files
+
+The configuration file example can be found in the `configs` directory.
+
+To create a real configuration file, you need to copy the example file and name it as `<network>.config.json`.
+Where `<network>` is the name of the network from the `hardhat.config.ts` you want to deploy to.
+
 ### Local deployment
 
 To deploy the contracts locally, run the following commands (in the different terminals):
