@@ -1,6 +1,6 @@
 import { Deployer, Reporter } from "@solarity/hardhat-migrate";
 
-import { CombatManager__factory, DicktatorsClashToken__factory } from "@ethers-v6";
+import { CombatManagerMock__factory, DicktatorsClashToken__factory } from "@ethers-v6";
 
 import { parseConfig, DeploymentConfig } from "./helpers/config-parser";
 
@@ -13,7 +13,7 @@ export = async (deployer: Deployer) => {
     config.tokenName,
     config.tokenSymbol,
   ]);
-  const combatManager = await deployer.deploy(CombatManager__factory, [
+  const combatManager = await deployer.deploy(CombatManagerMock__factory, [
     config.ownerAddr,
     await dicktatorsClashToken.getAddress(),
   ]);
