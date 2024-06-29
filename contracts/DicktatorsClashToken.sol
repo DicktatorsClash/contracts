@@ -8,10 +8,10 @@ import {ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20P
 import {IDicktatorsClashToken} from "./interfaces/IDicktatorsClashToken.sol";
 
 contract DicktatorsClashToken is IDicktatorsClashToken, ERC20Permit, Ownable {
-    address internal _tokenMinterAddr;
+    address public tokenMinterAddr;
 
-    modifier onlyTokenMinter() {
-        _onlyTokenMinter(msg.sender);
+    modifier onlyTokenMinterOrOwner() {
+        _onlyTokenMinterOrOwner(msg.sender);
         _;
     }
 
@@ -28,21 +28,21 @@ contract DicktatorsClashToken is IDicktatorsClashToken, ERC20Permit, Ownable {
         _setTokenMinterAddress(tokenMinterAddr_);
     }
 
-    function mint(address to_, uint256 amount_) external onlyTokenMinter {
+    function mint(address to_, uint256 amount_) external onlyTokenMinterOrOwner {
         _mint(to_, amount_);
     }
 
-    function burn(address to_, uint256 amount_) external onlyTokenMinter {
+    function burn(address to_, uint256 amount_) external onlyTokenMinterOrOwner {
         _burn(to_, amount_);
     }
 
     function _setTokenMinterAddress(address tokenMinterAddr_) internal {
-        _tokenMinterAddr = tokenMinterAddr_;
+        tokenMinterAddr = tokenMinterAddr_;
     }
 
-    function _onlyTokenMinter(address addrToCheck_) internal view {
-        if (addrToCheck_ != _tokenMinterAddr) {
-            revert NotATokenMinterAddress(addrToCheck_);
+    function _onlyTokenMinterOrOwner(address addrToCheck_) internal view {
+        if (addrToCheck_ != tokenMinterAddr && addrToCheck_ != owner()) {
+            revert NotATokenMinterAddressOrOwner(addrToCheck_);
         }
     }
 }

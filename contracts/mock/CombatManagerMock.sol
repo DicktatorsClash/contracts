@@ -6,7 +6,9 @@ import {CombatManager} from "../CombatManager.sol";
 contract CombatManagerMock is CombatManager {
     uint256 nextAttackResult;
 
-    constructor(address owner_, address combatToken_) CombatManager(owner_, combatToken_) {}
+    constructor(address owner_, address combatToken_) CombatManager(owner_, combatToken_) {
+        clearNextAttackResult();
+    }
 
     function setNextAttackResult(uint256 nextAttackResult_) public {
         nextAttackResult = nextAttackResult_;
@@ -32,7 +34,7 @@ contract CombatManagerMock is CombatManager {
         if (nextAttackResult == type(uint256).max) {
             return super._getAttackResult(tokensAmount_);
         } else {
-            return nextAttackResult % MAX_ATTACK_RESULT;
+            return (nextAttackResult % MAX_ATTACK_RESULT) + 1;
         }
     }
 }

@@ -61,9 +61,9 @@ contract CombatManager is ICombatManager, Ownable {
 
     function _getAttackResult(uint256 tokensAmount_) internal view virtual returns (uint256) {
         return
-            uint256(
+            (uint256(
                 keccak256(abi.encode(blockhash(block.number - 1), msg.sender, tokensAmount_))
-            ) % MAX_ATTACK_RESULT;
+            ) % MAX_ATTACK_RESULT) + 1;
     }
 
     function _getAttackResultTokensAmount(
@@ -71,6 +71,10 @@ contract CombatManager is ICombatManager, Ownable {
         uint256 attackResult_
     ) internal pure returns (uint256) {
         uint256 tokensAmountOnePart = tokensAmount_ / (MAX_ATTACK_RESULT / 2);
+
+        if (attackResult_ == 1) {
+            return 0;
+        }
 
         return tokensAmountOnePart * attackResult_;
     }

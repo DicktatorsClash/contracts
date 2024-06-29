@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 interface IDicktatorsClashToken {
-    error NotATokenMinterAddress(address senderAddr);
+    error NotATokenMinterAddressOrOwner(address senderAddr);
 
     function setTokenMinterAddress(address tokenMinterAddr_) external;
 
